@@ -1,8 +1,21 @@
+:root{
+  --horizontal-padding: 4.58vw;
+
+  /* Colors */
+  --yellow: #FFB000;
+  --light-yellow: rgba(255, 243, 217, .7);
+  --black: #1D1D1D;
+  --gray: #3D3D3D;
+  --light-gray: #979797;
+  --light-gray2: #F8F8F8;
+  --light-gray3: #EBEBEB;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  font-family: "Rawson" ,-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
@@ -15,12 +28,3 @@ a {
   box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
-}
