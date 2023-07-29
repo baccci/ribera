@@ -15,5 +15,6 @@ export default async function getProducts(){
     return filteredProducts;
   }catch(err){
     console.log(red(`Error on GET /products: ${err}`));
+    return productsObjects.filter(product => product.available);
   }
 }
