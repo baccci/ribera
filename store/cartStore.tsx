@@ -20,7 +20,6 @@ export interface CartState{
   removeFromCart: (params: StoredCart) => void;
 }
 
-
 const useCart = create(
   persist(
     (set, get) => ({
