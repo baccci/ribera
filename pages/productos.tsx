@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
-import useCart, {CartState, StoredCart} from 'store/cartStore';
+import useCart, {StoredCart} from 'store/cartStore';
 import FilterTag from 'components/FilterTag';
 import Layout from 'components/Layout'
 import SearchBar from 'components/SearchBar'
 import styles from 'styles/Productos.module.css';
 import ProductCard from 'components/ProductCard';
 import Head from 'next/head';
+import getProducts from 'services/getProducts';
 
 export async function getStaticProps() {
-  const res = await fetch(`http://localhost:3000/api/products`);
-  const products = await res.json();
-
+  const products = await getProducts();
+  
   return {
     props: {
       products,
