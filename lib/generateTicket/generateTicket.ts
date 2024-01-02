@@ -1,4 +1,4 @@
-import { createCanvas } from 'canvas'
+import { createCanvas } from '@napi-rs/canvas'
 import { Ticket } from './models/Ticket'
 import { Padding } from './models/Padding'
 import { Order } from './models/Order'
@@ -33,6 +33,6 @@ export async function generateTicket({
   const ticket = new Ticket(context, canvasWidth, canvasHeight, canvasPadding, order)
   await ticket.render()
 
-  const buffer = canvas.toBuffer('image/png')
+  const buffer = await canvas.encode('png')
   return buffer
 }

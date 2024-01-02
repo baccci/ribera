@@ -1,17 +1,23 @@
-import { loadImage, type CanvasRenderingContext2D } from 'canvas'
+import { type SKRSContext2D, loadImage, GlobalFonts } from '@napi-rs/canvas'
 import { Padding } from './Padding'
-import { FONT_FAMILY, PRIMARY_COLOR, CONFIRMATION_RECT_BG_COLOR } from '../constants'
+import { PRIMARY_COLOR, CONFIRMATION_RECT_BG_COLOR } from '../constants'
 import path from 'node:path'
 import { CONFIRMATION_TOAST_MESSAGE } from '@/app/order/_components/constants'
 import { Order } from './Order'
 import { numberToPrice } from '@/lib/numberToPrice'
+
+const FONT_FAMILY_REGULAR = 'Rawson_Pro_regular'
+const FONT_FAMILY_BOLD_ITALIC = 'Rawson_Pro_bold_italic'
+const FONT_FAMILY_SEMIBOLD = 'Rawson_Pro_semibold'
+const FONT_FAMILY_BOLD = 'Rawson_Pro_bold'
+const FONT_FAMILY_MEDIUM = 'Rawson_Pro_medium'
 
 export class Ticket {
   private y: number = 0
   private subtotalPrice: number = 0
 
   constructor(
-    private context: CanvasRenderingContext2D,
+    private context: SKRSContext2D,
     private width: number,
     private height: number = 600,
     private padding: Padding,
@@ -25,6 +31,12 @@ export class Ticket {
   }
 
   public async render() {
+    GlobalFonts.registerFromPath(path.join(process.cwd(), 'fonts', 'rawsonPro', 'RawsonPro-Regular.ttf'), FONT_FAMILY_REGULAR)
+    GlobalFonts.registerFromPath(path.join(process.cwd(), 'fonts', 'rawsonPro', 'RawsonPro-BoldIt.ttf'), FONT_FAMILY_BOLD_ITALIC)
+    GlobalFonts.registerFromPath(path.join(process.cwd(), 'fonts', 'rawsonPro', 'RawsonPro-SemiBold.ttf'), FONT_FAMILY_SEMIBOLD)
+    GlobalFonts.registerFromPath(path.join(process.cwd(), 'fonts', 'rawsonPro', 'RawsonPro-Bold.ttf'), FONT_FAMILY_BOLD)
+    GlobalFonts.registerFromPath(path.join(process.cwd(), 'fonts', 'rawsonPro', 'RawsonPro-Medium.ttf'), FONT_FAMILY_MEDIUM)
+
     this.context.fillStyle = '#fff'
     this.context.fillRect(0, 0, this.width, this.height)
     await this.printLogo()
@@ -54,7 +66,7 @@ export class Ticket {
 
   private printSlogan() {
     this.context.fillStyle = PRIMARY_COLOR
-    this.context.font = `bold italic 14px '${FONT_FAMILY}'`
+    this.context.font = `bold italic 14px '${FONT_FAMILY_BOLD_ITALIC}'`
     this.context.textAlign = 'center'
     const textHeight = this.context.measureText('TODO ESTÁ BIEN!').actualBoundingBoxAscent || 20
     this.context.fillText('TODO ESTÁ BIEN!', this.getCenterX(), this.y + textHeight)
@@ -69,7 +81,7 @@ export class Ticket {
     const logoPath = path.join(process.cwd(), 'public', 'check.svg')
 
     // rect drawing
-    this.context.font = `normal 600 14px '${FONT_FAMILY}'`
+    this.context.font = `bold 14px '${FONT_FAMILY_BOLD}'`
     const textWidth = this.context.measureText(message).width
     const rectWidth = textWidth + 24 + 18 + 8 // 24: padding, 18: icon, 8: flex gap
     const rectX = (this.context.canvas.width - rectWidth) / 2
@@ -110,7 +122,7 @@ export class Ticket {
     // title
     this.context.beginPath()
     this.context.fillStyle = '#1d1d1b'
-    this.context.font = `bold 24px '${FONT_FAMILY}'`
+    this.context.font = `bold 24px '${FONT_FAMILY_BOLD}'`
     this.context.textAlign = 'left'
     const textHeight = this.context.measureText('Tu pedido').actualBoundingBoxAscent
     this.context.fillText('Tu pedido', this.padding.left, this.y + textHeight)
@@ -134,7 +146,7 @@ export class Ticket {
     const tableCornerPadding = textLeftPadding * 4 / 3
     let tableHeaderX = this.padding.left + tableCornerPadding
     const tableHeaderYCenter = this.y + 22
-    this.context.font = `normal 600 16px '${FONT_FAMILY}'`
+    this.context.font = `bold 16px '${FONT_FAMILY_BOLD}'`
 
     this.context.fillText('Cant.', tableHeaderX, tableHeaderYCenter)
     const quantityTextWidth = this.context.measureText('Cant.').width + textLeftPadding
@@ -168,18 +180,18 @@ export class Ticket {
       wrappedTextHeight = 0
 
       let tableBodyTextX = this.padding.left + textLeftPadding * 2
-      this.context.font = `normal 600 14px '${FONT_FAMILY}'`
+      this.context.font = `normal 600 14px '${FONT_FAMILY_BOLD}'`
       this.context.fillText(product.quantity.toString(), tableBodyTextX, tableBodyTextY)
 
       // product name drawing
-      this.context.font = `normal 400 14px '${FONT_FAMILY}'`
+      this.context.font = `normal 400 14px '${FONT_FAMILY_REGULAR}'`
       tableBodyTextX = this.padding.left + tableCornerPadding + quantityTextWidth
       this.context.fillText(product.name, tableBodyTextX, tableBodyTextY)
       const productTextHeight = 10
       if (productTextHeight > wrappedTextHeight) wrappedTextHeight = productTextHeight
 
       // product amount price drawing
-      this.context.font = `normal 500 14px '${FONT_FAMILY}'`
+      this.context.font = `normal 500 14px '${FONT_FAMILY_MEDIUM}'`
       tableBodyTextX = this.width - (this.padding.right + tableCornerPadding + amountTextWidth)
       const subtotalPrice = product.price * product.quantity
       this.setTotalPrice(subtotalPrice)
@@ -187,7 +199,7 @@ export class Ticket {
       this.context.fillText(subtotalPriceString, tableBodyTextX, tableBodyTextY)
 
       // product unit price drawing
-      this.context.font = `normal 400 14px '${FONT_FAMILY}'`
+      this.context.font = `normal 400 14px '${FONT_FAMILY_REGULAR}'`
       tableBodyTextX -= textLeftPadding + unitPriceTextWidth
       const price = product.price.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })
       this.context.fillText(price, tableBodyTextX, tableBodyTextY)
@@ -199,10 +211,10 @@ export class Ticket {
   }
 
   private printSubtotal() {
-    this.context.font = `normal 700 14px '${FONT_FAMILY}'`
+    this.context.font = `bold 14px '${FONT_FAMILY_BOLD}'`
     this.context.fillText('Subtotal', this.padding.left, this.y)
     const subtotal = numberToPrice(this.order.getSubtotalPrice())
-    this.context.font = `normal 700 16px '${FONT_FAMILY}'`
+    this.context.font = `bold 16px '${FONT_FAMILY_BOLD}'`
     const subtotalXPosition = this.width - (this.padding.right + this.context.measureText(subtotal).width)
 
     this.context.fillText(subtotal, subtotalXPosition, this.y)
@@ -216,7 +228,7 @@ export class Ticket {
     const discountText = `- ${discountFromatted} (${this.order.getDiscountTotalPercentage()}%)`
 
     const drawDiscountText = (x: number, y: number, render: boolean = true) => {
-      this.context.font = `normal 600 16px '${FONT_FAMILY}'`
+      this.context.font = `bold 16px '${FONT_FAMILY_BOLD}'`
       this.context.fillStyle = '#22c55e'
       if (render) this.context.fillText(discountText, x, y)
       const width = this.context.measureText(discountText).width
@@ -237,14 +249,14 @@ export class Ticket {
     this.addY(extraTitleMargin)
 
     this.context.fillStyle = '#475569'
-    this.context.font = `normal 600 14px '${FONT_FAMILY}'`
+    this.context.font = `normal 600 14px '${FONT_FAMILY_BOLD}'`
     const totalTextHeight = this.context.measureText('Total').actualBoundingBoxAscent
     this.context.fillText('Total', this.padding.left, this.y)
     const textGap = 4
     this.addY(totalTextHeight + textGap)
 
     this.context.fillStyle = '#1d1d1b'
-    this.context.font = `bold 24px '${FONT_FAMILY}'`
+    this.context.font = `bold 24px '${FONT_FAMILY_BOLD}'`
     const totalAmountTextHeight = this.context.measureText('Total').actualBoundingBoxAscent
     this.addY(totalAmountTextHeight)
     const total = numberToPrice(this.order.getTotalPrice())
@@ -255,13 +267,13 @@ export class Ticket {
 
   private printOrderNumber() {
     this.context.fillStyle = '#838297'
-    this.context.font = `normal 400 14px '${FONT_FAMILY}'`
+    this.context.font = `normal 400 14px '${FONT_FAMILY_REGULAR}'`
     this.context.fillText(`N° de pedido: #${this.order.orderNumber}`, this.padding.left, 20)
   }
 
   private printDate() {
     this.context.fillStyle = '#838297'
-    this.context.font = `normal 400 14px '${FONT_FAMILY}'`
+    this.context.font = `normal 400 14px '${FONT_FAMILY_REGULAR}'`
 
     const dateText = new Date(this.order.date).toLocaleDateString(
       'es-AR',
@@ -286,14 +298,14 @@ export class Ticket {
     padding: Padding = new Padding(32),
     borderRadius: number = 12
   ) {
-    this.context.font = `normal 600 14px '${FONT_FAMILY}'`
+    this.context.font = `normal 600 14px '${FONT_FAMILY_BOLD}'`
     this.context.fillStyle = '#475569'
     const textGap = 16
     const titleTextWidth = this.context.measureText(title).width
     const titleTextHeight = this.context.measureText(title).actualBoundingBoxAscent
     this.context.fillText(title, x + padding.left, y + padding.top + titleTextHeight)
 
-    this.context.font = `normal 400 16px '${FONT_FAMILY}'`
+    this.context.font = `normal 400 16px '${FONT_FAMILY_REGULAR}'`
     this.context.fillStyle = '#1d1d1b'
 
     const valueTextWidth = typeof value === 'string' ? this.context.measureText(value).width : value(0, 0, false).width

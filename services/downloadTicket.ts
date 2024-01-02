@@ -35,6 +35,8 @@ export async function downloadTicket({
       })
     })
 
+    console.log({ response })
+
     const blob = await response.blob()
     saveAs(blob, 'ticket.png')
   } catch (error) {
