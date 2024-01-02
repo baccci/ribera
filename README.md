@@ -1,34 +1,42 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Ribera's Website
 
-## Getting Started
+This app was created as a part of a university project and is based on a local restaurant in my city. It is not an official representation and is intended solely for educational purposes. No transactions can be made, and no data is sent or stored.
 
-First, run the development server:
+The website's design is inspired by the restaurant's aesthetic, with all graphics, except for the logo, created by me. This includes icons for filters, header underlines, cart icons, footer backgrounds, and more.
+
+I rewrote the entire app from scratch, migrating from pages router to app router, utilizing the new RSC, and adhering to a new file convention. I made an effort to use URL state whenever possible.
+
+### Planned Features:
+
+- [x] Payment modal
+- [x] Ticket download
+- [ ] Full landing page
+- [ ] Missing sections
+- [ ] Login system
+- [ ] Migration from MongoDB to PostgreSQL with Prisma ORM
+
+In order to run it in development server you must install the dependencies with
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+# or
+bun install
+```
+
+and the run it
 
 ```bash
 npm run dev
 # or
 yarn dev
+# or
+pnpm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Feel free to contribute and improve the app further. If you encounter any issues or have suggestions, please open an issue or submit a pull request.
