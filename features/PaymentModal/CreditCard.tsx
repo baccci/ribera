@@ -32,7 +32,9 @@ export const CreditCard: React.FC<CreditCardProps> = ({
   const isBackFace = cardSide === 'back'
 
   return (
-    <Atropos className={cn('w-[224px] h-[140px] sm:w-[280px] sm:h-[175px] aspect-video rounded-lg relative hover:shadow-xl')} shadow={false}>
+    <Atropos
+      className={cn('w-[224px] h-[140px] sm:w-[280px] sm:h-[175px] aspect-video rounded-lg relative hover:shadow-xl')}
+    >
       <div className='[perspective:150rem] relative w-[224px] h-[140px] sm:w-[280px] sm:h-[175px] bg-none group'>
 
         <div className={cn(`w-[224px] h-[140px] sm:w-[280px] sm:h-[175px] rounded-lg px-5 py-4 bg-white flex flex-col 

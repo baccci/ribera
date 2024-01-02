@@ -15,6 +15,8 @@ I rewrote the entire app from scratch, migrating from pages router to app router
 - [ ] Login system
 - [ ] Migration from MongoDB to PostgreSQL with Prisma ORM
 
+### Cloning repo
+
 In order to run it in development server you must install the dependencies with
 
 ```bash
@@ -27,7 +29,7 @@ pnpm install
 bun install
 ```
 
-and the run it
+and the run
 
 ```bash
 npm run dev
