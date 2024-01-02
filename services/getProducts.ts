@@ -7,7 +7,7 @@ import { cache } from 'react'
 
 dbConnect()
 
-export const getProducts = cache(async () => {
+const getProducts = cache(async () => {
   console.log(yellow('GET /products'))
   try {
     const response = await Products.find().lean<MongoProduct[]>()
@@ -21,3 +21,5 @@ export const getProducts = cache(async () => {
     return productsObjects.filter(product => product.available)
   }
 })
+
+export default getProducts

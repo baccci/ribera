@@ -44,7 +44,7 @@ export const Modal = ({
   const footer = useMemo(() => getChildrenOnDisplayName(children, 'Footer'), [children])
   const close = useMemo(() => getChildrenOnDisplayName(children, 'TopCloseButton'), [children])
 
-  const usingIcon = icon?.length > 0
+  const usingIcon = !!icon?.length
 
   const modal = useModal({
     headerId,

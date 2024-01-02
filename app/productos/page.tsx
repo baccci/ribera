@@ -1,6 +1,6 @@
 import { SearchInput } from './_components/SearchInput'
 import { CategoriesFilter } from './_components/CategoriesFilter'
-import { getProducts } from '@/services/getProducts'
+import getProducts from '@/services/getProducts'
 import { Products } from './_components/Products'
 import { CheckoutButton } from './_components/CheckoutButton'
 import { Suspense } from 'react'
