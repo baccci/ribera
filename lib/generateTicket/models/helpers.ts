@@ -1,8 +1,8 @@
-import { type CanvasRenderingContext2D } from 'canvas'
+import { type SKRSContext2D } from '@napi-rs/canvas'
 import { Padding } from './Padding'
 import { Order } from './Order'
 
-export function wrapText(context: CanvasRenderingContext2D, text: string, x: number, y: number, maxWidth: number, lineHeight: number): number {
+export function wrapText(context: SKRSContext2D, text: string, x: number, y: number, maxWidth: number, lineHeight: number): number {
   const words = text.split(' ')
   let line = ''
   let totalHeight = 0
