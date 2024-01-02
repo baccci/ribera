@@ -1,16 +1,18 @@
 import { type SKRSContext2D, loadImage, GlobalFonts } from '@napi-rs/canvas'
 import { Padding } from './Padding'
-import { PRIMARY_COLOR, CONFIRMATION_RECT_BG_COLOR } from '../constants'
+import {
+  PRIMARY_COLOR,
+  CONFIRMATION_RECT_BG_COLOR,
+  FONT_FAMILY_BOLD,
+  FONT_FAMILY_BOLD_ITALIC,
+  FONT_FAMILY_MEDIUM,
+  FONT_FAMILY_REGULAR,
+  FONT_FAMILY_SEMIBOLD
+} from '../constants'
 import path from 'node:path'
 import { CONFIRMATION_TOAST_MESSAGE } from '@/app/order/_components/constants'
 import { Order } from './Order'
 import { numberToPrice } from '@/lib/numberToPrice'
-
-const FONT_FAMILY_REGULAR = 'Rawson_Pro_regular'
-const FONT_FAMILY_BOLD_ITALIC = 'Rawson_Pro_bold_italic'
-const FONT_FAMILY_SEMIBOLD = 'Rawson_Pro_semibold'
-const FONT_FAMILY_BOLD = 'Rawson_Pro_bold'
-const FONT_FAMILY_MEDIUM = 'Rawson_Pro_medium'
 
 export class Ticket {
   private y: number = 0
