@@ -18,7 +18,7 @@ export const Tab = ({ className, children, fullWidth, initialTab, ...other }: Ta
   const tabItems = React.useMemo(() => getChildrenOnDisplayName(children, 'TabItem'), [children])
   const tabContents = React.useMemo(() => getChildrenOnDisplayName(children, 'TabContent'), [children])
 
-  const defaultTabValue = initialTab || tabItems[0].props.value
+  const defaultTabValue = initialTab || tabItems?.[0].props.value
   const tabContext = useTab(defaultTabValue)
 
   const { activeTab } = tabContext
