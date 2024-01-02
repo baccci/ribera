@@ -13,14 +13,14 @@ export const CartMobile = () => {
   useDocumentScroll(!show)
 
   const toggleShow = () => setShow(!show)
-  
+
   return (
-    <div 
+    <div
       className={cn('flex items-center justify-center md:hidden relative text-gray w-5 md:w-6',
         { 'opacity-0 pointer-events-none': isCheckout }
       )}
     >
-      <button onClick={toggleShow}>
+      <button onClick={toggleShow} aria-label='Open/close Cart'>
         <CartIcon size='100%' />
         {!emptyCart && <CartQuantityIndicator quantity={total} />}
       </button>

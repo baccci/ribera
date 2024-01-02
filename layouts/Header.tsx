@@ -37,7 +37,7 @@ export const Header = () => {
           Sign In
         </Button>
         <Sheet >
-          <SheetTrigger>
+          <SheetTrigger aria-label='Open menu'>
             <IconMenu2 className='xl:hidden text-gray cursor-pointer' size={28} />
           </SheetTrigger>
           <SheetContent className='border-l-0 flex flex-col justify-between'>

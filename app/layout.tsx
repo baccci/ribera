@@ -18,7 +18,7 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
 
   return (
-    <html className='h-full'>
+    <html className='h-full' lang='es'>
       <body className={`${rawsonPro.variable} font-sans box-border h-full flex flex-col overflow-x-hidden`}>
         <Announcement message='Página web de prueba, ¡No es oficial!' />
         <Header />

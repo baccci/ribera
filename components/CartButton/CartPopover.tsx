@@ -12,12 +12,13 @@ export const CartPopover = () => {
   return (
     <div className='hidden md:block'>
       <Popover modal >
-        <Popover.Trigger 
+        <Popover.Trigger
           className={cn('relative text-gray w-5 md:w-6',
             { 'opacity-0 pointer-events-none': isCheckout }
           )}
+          aria-label='Open/close Cart'
         >
-          <CartIcon size='100%'/>
+          <CartIcon size='100%' />
           {!emptyCart && <CartQuantityIndicator quantity={total} />}
         </Popover.Trigger>
         <Popover.Content sideOffset={10}>

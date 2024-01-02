@@ -12,7 +12,7 @@ interface LogoProps {
 
 const Logo: React.FC<LogoProps> = ({ width = 100, height = 56, color = 'currentColor', className, link = true }) => {
 
-  if(!link) return <LogoIcon width={width} height={height} color={color} className={className}/>
+  if (!link) return <LogoIcon width={width} height={height} color={color} className={className} />
   return <LinkLogo width={width} height={height} color={color} className={className} />
 }
 
@@ -20,8 +20,8 @@ export default Logo
 
 const LinkLogo: React.FC<Omit<LogoProps, 'link'>> = (props) => {
   return (
-    <Link href='/'>
-      <LogoIcon {...props}/>
+    <Link href='/' aria-label="Go to home">
+      <LogoIcon {...props} />
     </Link>
   )
 }

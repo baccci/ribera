@@ -15,12 +15,12 @@ export const Footer = () => {
     <footer className='overflow-hidden min-h-[20rem] mt-auto flex flex-col'>
       <div className='w-full h-full relative'>
         <div className='w-[101%] flex items-end absolute left-0 top-0 z-[-1] bg-cover h-[286px] pt-1'>
-          <Image src='/1920-footer.svg' fill className='object-cover' alt='Footer background image.' priority={true}/>
+          <Image src='/1920-footer.svg' fill className='object-cover' alt='Footer background image.' priority={true} />
         </div>
         <div className='w-full px-lateral-sm md:px-lateral-md pt-5 lg:px-lateral h-full flex items-center text-sm md:text-base text-ellipsis whitespace-nowrap'>
           <div className='flex justify-between md:justify-normal w-full'>
             <div className='flex flex-col gap-4'>
-              <Logo width={undefined} height={undefined} color='white' className='w-[80px] md:w-[100px] md:h-[56px]'/>
+              <Logo width={undefined} height={undefined} color='white' className='w-[80px] md:w-[100px] md:h-[56px]' />
               <p className='text-white text-sm md:text-base max-w-xs whitespace-pre-wrap opacity-80'>
                 <Balancer>
                   📍 Bulevar Sarmiento 660, Villa María, Córdoba, Argentina.
@@ -35,13 +35,13 @@ export const Footer = () => {
                     <Link href={'/productos?category=Pizzas'}>Pizzas</Link>
                   </li>
                   <li>
-                  <Link href={'/productos?category=Hamburguesas'}>Hamburguesas</Link>
+                    <Link href={'/productos?category=Hamburguesas'}>Hamburguesas</Link>
                   </li>
                   <li>
-                  <Link href={'/productos?category=Empanadas'}>Empanadas</Link>
+                    <Link href={'/productos?category=Empanadas'}>Empanadas</Link>
                   </li>
                   <li>
-                  <Link href={'/productos?category=Bebidas'}>Bebidas</Link>
+                    <Link href={'/productos?category=Bebidas'}>Bebidas</Link>
                   </li>
                 </ul>
               </div>
@@ -62,11 +62,11 @@ export const Footer = () => {
               <div className='flex flex-col gap-4' >
                 <p className='text-white font-bold mb-2 text-lg'>Nuestras redes</p>
                 <div className='flex gap-4 justify-end md:justify-normal'>
-                  <Link href={'https://www.instagram.com/ribera_bar/'}>
-                    <InstagramIcon color='white'/>
+                  <Link href={'https://www.instagram.com/ribera_bar/'} aria-label="Go to Ribera's instagram page">
+                    <InstagramIcon color='white' />
                   </Link>
-                  <Link href={whatsappURLString} target='_blank'>
-                    <WhatsappIcon color='white'/>
+                  <Link href={whatsappURLString} target='_blank' aria-label="Contact with Ribera's Whatsapp">
+                    <WhatsappIcon color='white' />
                   </Link>
                 </div>
               </div>
