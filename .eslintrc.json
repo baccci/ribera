@@ -1,3 +1,22 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": [
+    "next/core-web-vitals",
+    "standard",
+    "plugin:react/jsx-runtime"
+  ],
+  "rules": {
+    "space-before-function-paren": "off",
+    "no-unused-vars": "warn",
+    "no-console": "warn",
+    "padded-blocks": "off",
+    "eol-last": "off",
+    "no-multiple-empty-lines": "warn",
+    "no-trailing-spaces": "off",
+    "keyword-spacing": "off",
+    "no-irregular-whitespace": "off",
+    "spaced-comment": "warn",
+    "indent": "warn",
+    "object-curly-spacing": "warn",
+    "no-multi-spaces": "warn"
+  }
 }

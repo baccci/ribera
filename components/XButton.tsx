@@ -1,37 +1,37 @@
+'use client'
 import React from 'react'
+import { IconX } from '@tabler/icons-react'
+import { cn } from '@/lib/tailwindClassMerge'
 
-const XButton = ({func}: {func?: () => void}) => {
-  return (
-    <div onClick={() => func && func()}>
-      <XButtonSVG/>
-      <style jsx>
-        {`
-          div{
-            padding: 5px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color .2s ease-out;
-            width: 22px;
-            height: 22px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          }
-          div:hover{
-            background-color: #f2f2f2;
-          }
-        `}
-      </style>
-    </div>
-  )
+export interface XButtonProps {
+  func?: () => void
+  className?: string
+  size?: number
+  color?: string
+  stroke?: number
 }
 
-export default XButton
-
-const XButtonSVG = () => {
-  return(
-    <svg width="12" height="12" viewBox="0 0 12 12">
-      <path d="M11.622,9.255,8.367,6l3.254-3.255a1.291,1.291,0,0,0,0-1.827l-.54-.54a1.291,1.291,0,0,0-1.827,0L6,3.633,2.746.379a1.291,1.291,0,0,0-1.827,0l-.54.54a1.291,1.291,0,0,0,0,1.827L3.633,6,.379,9.255a1.291,1.291,0,0,0,0,1.827l.54.54a1.292,1.292,0,0,0,1.827,0L6,8.367l3.254,3.255a1.292,1.292,0,0,0,1.827,0l.54-.54a1.291,1.291,0,0,0,0-1.827" fill="#3d3d3d" />
-    </svg>
+export const XButton: React.FC<XButtonProps> = ({
+  func,
+  className,
+  size = 16,
+  color = 'currentColor',
+  stroke = 3
+}) => {
+  return (
+    <button
+      className={cn(`
+      [--bg-color:#F1F5F9] [--size:32px] [--quarter-size:calc(var(--size)/4*-1)]
+      relative hover:after:content-[''] hover:after:bg-[var(--bg-color)] hover:after:w-[var(--size)] cursor-pointer text-slate-500 hover:after:animate-show z-[2] md:pt-0
+      hover:after:h-[var(--size)] hover:after:absolute hover:after:top-[var(--quarter-size)] hover:after:left-[var(--quarter-size)] hover:after:z-[-1] hover:after:rounded-full`,
+      className
+      )}
+      onClick={func}
+      role='button'
+      aria-label='close'
+      type='button'
+    >
+      <IconX size={size} color={color} stroke={stroke} />
+    </button>
   )
 }

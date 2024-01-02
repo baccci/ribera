@@ -1,16 +1,16 @@
-import mongoose, { models, Schema, model } from 'mongoose';
+import { models, Schema, model } from 'mongoose'
 
 const productSchema = new Schema({
   code: {
     type: String,
-    required: true,
+    required: true
   },
   name: {
     type: String,
     required: true,
     default: 'Product'
   },
-  cost: {
+  price: {
     type: Number,
     required: true,
     default: 0
@@ -34,6 +34,6 @@ const productSchema = new Schema({
     required: true,
     default: ''
   }
-}, {versionKey: false});
+}, { versionKey: false })
 
-export default models.Product || model('Product', productSchema);
+export default models.Product || model('Product', productSchema)

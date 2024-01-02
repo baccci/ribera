@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    outline-color: var(--yellow);
+  }
+
+  :root {
+    /* Colors */
+    --yellow: #FFB000;
+    --light-yellow: rgba(255, 243, 217, .7);
+    --black: #1D1D1D;
+    --gray: #3D3D3D;
+    --gray2: #979797;
+    --gray3: #EBEBEB;
+    --light-gray: #f1f3f5;
+    --light-gray2: #F8F8F8;
+    --line: #e0e0e0;
+    --mask: linear-gradient(var(--yellow), var(--yellow)) 50% 0 / 100% 4px no-repeat,
+      linear-gradient(var(--yellow), var(--yellow)) 50% 100% / 100% 4px no-repeat,
+      linear-gradient(var(--yellow), var(--yellow)) 0 50% / 4px 100% no-repeat,
+      linear-gradient(var(--yellow), var(--yellow)) 100% 50% / 4px 100% no-repeat;
+
+    --yellow-50: #FFFDEA;
+    --yellow-100: #FFF8C5;
+    --yellow-200: #FFF185;
+    --yellow-300: #FFE246;
+    --yellow-400: #FFD11B;
+    --yellow-500: #FFB000;
+    --yellow-600: #E28600;
+    --yellow-700: #BB5D02;
+    --yellow-800: #984808;
+    --yellow-900: #7C3B0B;
+    --yellow-950: #481D00;
+
+    --yellow-foreground: #ff9d00;
+
+    --background: 0 0% 100%;
+    --foreground: var(--primary);
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 60 4% 11%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 260 77% 70%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --overlay: 222.857, 21%, 74%, .4;
+    --link: 217.219 91% 60%;
+
+    --radius: 0.5rem;
+
+  }
+}

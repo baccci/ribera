@@ -1,57 +1,49 @@
-import { useEffect, useState } from 'react'
-import useCart, { StoredCart } from 'store/cartStore';
-import { useRouter } from 'next/router';
-import useShop from 'store/shopStore';
-import styles from 'styles/Carrito.module.css';
-import Layout from 'components/Layout';
-import Head from 'next/head';
-import VerticalProductCard from '../components/VerticalProductCard';
-import type { Product } from 'pages/productos';
-import Button from 'components/Button';
+import { Fragment, useEffect, useMemo, useState } from 'react'
+import useCart, { CartState, QuantifiedProduct } from 'store/cartStore'
+import { useRouter } from 'next/router'
+import useShop from 'store/old-shopStore'
+import styles from 'styles/Carrito.module.css'
+import Layout from '@/pagesComponents/Layout'
+import Head from 'next/head'
+import VerticalProductCard from '../pagesComponents/VerticalProductCard'
+import Button from '@/pagesComponents/Button'
 
-const Index = () => {
-  const { cartContent: mycart, quantity, cartContent, totalPrice, removeOneFromCart, updateCart, addToCart } = useCart((state: any) => state);
-  const { setOrderStatus, setOrderType, setTable, setProducts, setTotalPrice} = useShop((state: any) => state);
-  const router = useRouter();
+const useHydratedCart = () => {
+  const [quantity, setQuantity] = useState<number>(0)
+  const [price, setPrice] = useState<number>(0)
+  const [mycart, setMycart] = useState<QuantifiedProduct[]>([])
+  const { getQuantity, getTotalPrice, getQuantifiedItems } = useCart((state: CartState) => state)
 
-  const addProduct = (code: string, product: Product) => {
-    const index = mycart.findIndex((item: StoredCart) => item.code === code);
-    if (index !== -1) {
-      mycart[index].quantity++;
-      updateCart({ product, mycart });
-    } else {
-      addToCart({...product, quantity: 1});
-    }
-  };
+  const _mycart = useMemo(() => getQuantifiedItems(), [getQuantifiedItems])
+  const _price = getTotalPrice()
+  const priceString = price.toLocaleString('es-AR', {
+    style: 'currency',
+    currency: 'ARS'
+  })
 
-  const deleteProduct = (code: string, product: Product) => {
-    const index = mycart.findIndex((item: StoredCart) => item.code === code);
-    if (index !== -1) {
-      if(mycart[index].quantity >= 1) {
-        mycart[index].quantity--;
-        return removeOneFromCart({ product, mycart });
-      }
-    }
-  }
-
-  const [cart, setCart] = useState<any>([]);
-  const [total, setTotal] = useState<number>(0);
-  const [totalQuantity, setTotalQuantity] = useState<number>(0);
-  const [table, setTableNumber] = useState<number>(1);
+  const _quantity = getQuantity()
 
   useEffect(() => {
-    setCart(cartContent?.filter((item: StoredCart) => item.quantity > 0));
-    setTotal(totalPrice);
-    setTotalQuantity(quantity);
-  }, [cartContent, totalPrice, quantity]);
+    setQuantity(_quantity)
+    setPrice(_price)
+    setMycart(_mycart)
+  }, [_quantity, _price, _mycart])
+
+  return { quantity, price, priceString, mycart }
+}
+
+const Index = () => {
+  const { setOrderStatus, setOrderType, setTable } = useShop((state: any) => state)
+  const router = useRouter()
+
+  const [table, setTableNumber] = useState<number>(1)
+  const { quantity, price, priceString, mycart } = useHydratedCart()
 
   const handleClick = () => {
-    setProducts(cart);
-    setTotalPrice(total);
-    setOrderStatus('success');
-    setOrderType('dinein');
-    setTable(table);
-    router.push('/order');
+    setOrderStatus('success')
+    setOrderType('dinein')
+    setTable(table)
+    router.push('/order')
   }
 
   return (
@@ -62,26 +54,25 @@ const Index = () => {
       <div className={styles.carritoWrapper}>
         <div className={styles.productos}>
           <h2 className={styles.miCarrito}>
-            Mi carrito({totalQuantity})
+            Mi carrito({quantity})
           </h2>
-          {cart.length > 0 ? (
+          {quantity > 0
+            ? (
             <div className={styles.cartWrapper}>
               {
-                
-                cart.map((product: StoredCart) => {
-                  const { code, cost, description, imagePath, name} = product;
+
+                mycart.map((product) => {
                   return (
-                    <>
-                      <VerticalProductCard {...{code, price: cost, description, imagePath, name}} 
-                      addFunc={() => addProduct(code, product)} key={description} restFunc={() => deleteProduct(code, product)}/>
-                      <hr className={styles.line}/>
-                    </>
+                    <Fragment key={product.code}>
+                      <VerticalProductCard product={product}/>
+                      <hr className={styles.line} />
+                    </Fragment>
                   )
                 })
 
               }
             </div>
-          )
+              )
             : <p>No tenes items en tu carrito</p>
           }
         </div>
@@ -93,14 +84,14 @@ const Index = () => {
               </p>
               <div className={styles.pricesWrapper}>
                 <span className={styles.withoutDiscountPrice}>
-                  ${total}
+                  {priceString}
                 </span>
                 <p className={styles.discountPrice}>
-                  ${Number(total - (total * .2)).toFixed(2).replace(/[.,]00$/, "")}
+                  ${Number(price - (price * 0.2)).toFixed(2).replace(/[.,]00$/, '')}
                 </p>
               </div>
             </div>
-            <hr className={styles.checkoutLine}/>
+            <hr className={styles.checkoutLine} />
             <label className={styles.checkoutLabel} htmlFor="checkoutSelect">
               Tipo de pedido
             </label>
@@ -110,23 +101,23 @@ const Index = () => {
             <p className={styles.checkoutLabel}>
               Número de mesa
             </p>
-            <input className={styles.checkoutInputNumber} type="number" placeholder="1" min={1} max={20} value={table} onChange={(e) => setTableNumber(Number(e.target.value))}/>
-            <hr className={styles.checkoutLine}/>
+            <input className={styles.checkoutInputNumber} type="number" placeholder="1" min={1} max={20} value={table} onChange={(e) => setTableNumber(Number(e.target.value))} />
+            <hr className={styles.checkoutLine} />
             <p className={styles.checkoutLabel}>
               Descuentos
             </p>
             <ul className={styles.checkoutList}>
               <li className={styles.checkoutDiscount}>
-                <p className={styles.checkoutDiscountItem}>	&bull; Se consume en Ribera {'('}<span style={{color: '#47B878'}}>20%</span>{')'}</p>
+                <p className={styles.checkoutDiscountItem}> &bull; Se consume en Ribera {'('}<span style={{ color: '#47B878' }}>20%</span>{')'}</p>
               </li>
-              <p className={styles.checkoutDiscountNumber}>-${Number(total * 0.2).toFixed(2).replace(/[.,]00$/, "")}</p>
+              <p className={styles.checkoutDiscountNumber}>-${Number(price * 0.2).toFixed(2).replace(/[.,]00$/, '')}</p>
             </ul>
             <div className={styles.checkoutEnvioWrapper}>
               <p className={styles.checkoutLabel}>Envío</p>
               <p className={styles.checkoutLabel}>$0</p>
             </div>
           </div>
-          <Button width='100%' type='button' padding='22px 0' func={() => handleClick()} disabled={totalQuantity < 1}>Enviar Pedido</Button>
+          <Button width='100%' type='button' padding='22px 0' func={() => handleClick()} disabled={quantity < 1}>Enviar Pedido</Button>
         </div>
       </div>
     </Layout>
