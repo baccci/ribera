@@ -53,12 +53,12 @@ export const rawsonPro = localFont({
       style: 'italic'
     },
     {
-      path: './rawsonPro/RawsonPro-Semibold.woff2',
+      path: './rawsonPro/RawsonPro-SemiBold.woff2',
       weight: '600',
       style: 'normal'
     },
     {
-      path: './rawsonPro/RawsonPro-SemiboldIt.woff2',
+      path: './rawsonPro/RawsonPro-SemiBoldIt.woff2',
       weight: '600',
       style: 'italic'
     },
