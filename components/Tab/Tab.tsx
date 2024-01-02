@@ -22,7 +22,7 @@ export const Tab = ({ className, children, fullWidth, initialTab, ...other }: Ta
   const tabContext = useTab(defaultTabValue)
 
   const { activeTab } = tabContext
-  const activeContent = tabContents.find(content => content.props.value === activeTab)
+  const activeContent = tabContents?.find(content => content.props.value === activeTab)
 
   return (
     <TabContext.Provider value={tabContext}>
