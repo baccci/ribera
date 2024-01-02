@@ -4,14 +4,14 @@ import { cn } from '@/lib/tailwindClassMerge'
 
 type RadixTriggerProps = RadixPopover.PopoverTriggerProps & React.RefAttributes<HTMLButtonElement>
 
-interface PopoverTriggerProps extends RadixTriggerProps{
+interface PopoverTriggerProps extends RadixTriggerProps {
   children: React.ReactNode
   className?: string
 }
 
 export const PopoverTrigger: React.FC<PopoverTriggerProps> = ({ children, className, ...rest }) => {
   return (
-    <RadixPopover.Trigger className={cn('', className)} {...{ rest }}>
+    <RadixPopover.Trigger className={cn('', className)} {...rest}>
       {children}
     </RadixPopover.Trigger>
   )
