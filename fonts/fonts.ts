@@ -41,6 +41,11 @@ export const rawsonPro = localFont({
       path: './rawsonPro/RawsonPro-BoldIt.woff2',
       weight: '700',
       style: 'italic'
+    },
+    {
+      path: './rawsonPro/RawsonPro-ExtraBold.woff2',
+      weight: '800',
+      style: 'normal'
     }
   ],
   variable: '--font-rawson-pro'

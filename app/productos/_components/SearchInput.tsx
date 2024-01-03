@@ -8,11 +8,11 @@ export const SearchInput: React.FC = () => {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
-  const [search, setSearch] = React.useState(searchParams?.get('search') || '')
+  const [search, setSearch] = React.useState(searchParams?.get('search') || '')
   const inputRef = React.useRef<HTMLInputElement>(null)
 
   const handleClick = () => {
-    const inputText = inputRef.current?.value || ''
+    const inputText = inputRef.current?.value || ''
     handleSearch(inputText)
   }
 
@@ -35,9 +35,9 @@ export const SearchInput: React.FC = () => {
 
   return (
     <div className='max-w-sm w-full relative'>
-      <input 
+      <input
         type='text'
-        className={`px-4 w-full py-3 bg-light-gray2 rounded-xl hover:bg-light-gray focus-visible:ring-gray focus-visible:outline-none placeholder:text-ellipsis
+        className={`px-4 w-full py-3 bg-light-gray2 rounded-xl hover:bg-light-gray focus-visible:ring-yellow focus-visible:outline-none placeholder:text-ellipsis
           transition-colors duration-200 placeholder:text-gray2 placeholder:font-medium focus-visible:ring-2 focus-visible:ring-offset-2`}
         placeholder='Escribí para buscar algun producto'
         onKeyDown={handleEnterDown}
@@ -45,11 +45,11 @@ export const SearchInput: React.FC = () => {
         value={search}
         onChange={handleSearchChange}
       />
-      <div 
-        className='absolute right-4 top-0 h-full flex items-center text-gray2' 
+      <div
+        className='absolute right-4 top-0 h-full flex items-center text-gray2'
         onClick={handleClick}
       >
-        <LensIcon size={16} className='cursor-pointer'/>
+        <LensIcon size={16} className='cursor-pointer' />
       </div>
     </div>
   )
