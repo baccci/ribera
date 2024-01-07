@@ -8,6 +8,10 @@ import { ProductsSkeleton } from './_components/ProductsSkeleton'
 
 export const revalidate = 3600 // revalidate the data at most every hour
 
+export const metadata = {
+  title: 'Ribera - Productos'
+}
+
 export default async function Page() {
   const products = await getProducts()
   return (
