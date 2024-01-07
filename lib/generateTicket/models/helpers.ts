@@ -28,12 +28,14 @@ export function wrapText(context: SKRSContext2D, text: string, x: number, y: num
   return totalHeight
 }
 
-export function calculateCanvasHeight(order: Order, padding: Padding) {
+export function calculateCanvasHeight(order: Order, padding: Padding, detailLineHeight: number = 16) {
   const baseHeight = padding.top + padding.bottom + 390
   const productsQuantity = order.products.length
-  const detailLineHeight = 16
   const detailTotalHeight = detailLineHeight * productsQuantity
   const cardsHeight = order.getDiscountsTotal() ? 68 : 0
+  const discountsHeight = order.discounts.length
+    ? (order.discounts.length + 2) * detailLineHeight
+    : 0
 
-  return baseHeight + detailTotalHeight + cardsHeight
+  return baseHeight + detailTotalHeight + cardsHeight + discountsHeight
 }

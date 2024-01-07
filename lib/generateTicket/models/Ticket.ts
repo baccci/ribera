@@ -44,8 +44,12 @@ export class Ticket {
     await this.printLogo()
     this.printSlogan()
     await this.printConfirmationRect()
-    this.printDetail()
+    this.printDetailTitle()
+    this.printTableHeader()
+    this.printDetailBody()
     this.printSubtotal()
+    this.printDiscounts()
+    this.printCards()
     this.printTotal()
     this.printOrderNumber()
     this.printDate()
@@ -120,7 +124,7 @@ export class Ticket {
     this.addY(36, 36)
   }
 
-  private printDetail() {
+  private printDetailTitle() {
     // title
     this.context.beginPath()
     this.context.fillStyle = '#1d1d1b'
@@ -130,8 +134,6 @@ export class Ticket {
     this.context.fillText('Tu pedido', this.padding.left, this.y + textHeight)
     this.context.closePath()
     this.addY(textHeight, 20)
-
-    this.printTableHeader()
   }
 
   private printTableHeader() {
@@ -166,8 +168,15 @@ export class Ticket {
 
     this.context.closePath()
     this.addY(tableHeaderHeight, 24)
+  }
 
-    // table body drawing
+  private printDetailBody() {
+    const textLeftPadding = 12
+    const tableCornerPadding = textLeftPadding * 4 / 3
+    const quantityTextWidth = this.context.measureText('Cant.').width + textLeftPadding
+    const amountTextWidth = this.context.measureText('Importe').width
+    const unitPriceTextWidth = this.context.measureText('P. Unitario').width
+
     this.context.beginPath()
     this.context.fillStyle = '#64748b'
     const tableBodyY = this.y
@@ -221,28 +230,76 @@ export class Ticket {
 
     this.context.fillText(subtotal, subtotalXPosition, this.y)
     this.addY(24)
+  }
 
-    // print discount 
-    const discount = this.order.getDiscountsTotal()
+  private printDiscounts() {
+    const printDiscounts = this.order.discounts.length > 0
+    if (!printDiscounts) return
 
-    if (!discount) return
-    const discountFromatted = discount.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })
-    const discountText = `- ${discountFromatted} (${this.order.getDiscountTotalPercentage()}%)`
+    // print discounts
+    this.context.fillStyle = '#1d1d1b'
+    this.context.font = `normal 400 14px '${FONT_FAMILY_REGULAR}'`
+    this.context.fillText('Descuentos:', this.padding.left, this.y)
+    this.addY(24)
+    this.order.discounts.forEach(discount => {
+      const leftMargin = 12
+      const orderSubtotal = this.order.getSubtotalPrice()
+      const discountAmount = discount.discountType === 'amount'
+        ? discount.value
+        : orderSubtotal * discount.value / 100
+      const discountAmountFormatted = numberToPrice(discountAmount)
+      const discountAmountPercentage = discount.discountType === 'amount'
+        ? discountAmount * 100 / orderSubtotal
+        : discount.value
+      const discountText = `-${discountAmountFormatted} (${discountAmountPercentage}%)`
+      const discountTextWidth = this.context.measureText(discountText).width
 
-    const drawDiscountText = (x: number, y: number, render: boolean = true) => {
-      this.context.font = `bold 16px '${FONT_FAMILY_BOLD}'`
+      this.context.fillText('-', this.padding.left, this.y)
+      this.context.fillText(discount.name, this.padding.left + leftMargin, this.y)
+      this.context.font = `normal 600 14px '${FONT_FAMILY_SEMIBOLD}'`
       this.context.fillStyle = '#22c55e'
-      if (render) this.context.fillText(discountText, x, y)
-      const width = this.context.measureText(discountText).width
-      const height = this.context.measureText(discountText).actualBoundingBoxAscent
-      return { width, height }
+      this.context.fillText(discountText, this.width - (this.padding.right + discountTextWidth), this.y)
+
+      this.context.fillStyle = '#1d1d1b'
+      this.context.font = `normal 400 14px '${FONT_FAMILY_REGULAR}'`
+      this.addY(24)
+    })
+  }
+
+  private printCards() {
+    // print discount 
+    const cardGap = 16
+    const discount = this.order.getDiscountsTotal()
+    let xSpace = this.padding.left
+    let ySpace = 0
+
+    if (discount) {
+      const discountFromatted = numberToPrice(discount)
+      const discountText = `- ${discountFromatted} (${this.order.getDiscountTotalPercentage()}%)`
+
+      const drawDiscountText = (x: number, y: number, render: boolean = true) => {
+        this.context.font = `bold 16px '${FONT_FAMILY_BOLD}'`
+        this.context.fillStyle = '#22c55e'
+        if (render) this.context.fillText(discountText, x, y)
+        const width = this.context.measureText(discountText).width
+        const height = this.context.measureText(discountText).actualBoundingBoxAscent
+        return { width, height }
+      }
+
+      const { width: discountCardWidth, height: discountCardHeight } = this.drawCard('Total descuentos', drawDiscountText, xSpace, this.y, new Padding(16), 12)
+      xSpace += discountCardWidth + cardGap
+      ySpace = discountCardHeight + cardGap * 2
     }
 
-    const cardGap = 16
-    const { width: discountCardWidth, height: discountCardHeight } = this.drawCard('Total descuentos', drawDiscountText, this.padding.left, this.y, new Padding(16), 12)
-    this.order.orderType && this.drawCard('Delivery', numberToPrice(this.order.deliveryPrice), this.padding.left + discountCardWidth + cardGap, this.y, new Padding(16), 12)
+    if (this.order.deliveryPrice) {
+      const { width: deliveryCardWidth, height: deliveryCardHeight } = this.drawCard('Delivery', numberToPrice(this.order.deliveryPrice), xSpace, this.y, new Padding(16), 12)
+      xSpace += deliveryCardWidth + cardGap
+      ySpace = deliveryCardHeight + cardGap * 2
+    }
 
-    this.addY(discountCardHeight + cardGap * 2)
+    // TODO: add payment method card
+
+    this.addY(ySpace)
     this.context.fillStyle = '#1d1d1b'
   }
 

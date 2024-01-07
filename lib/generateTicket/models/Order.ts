@@ -1,5 +1,5 @@
 import { QuantifiedProduct } from '@/store/cartStore'
-import { Discount, OrderType } from '@/types/order'
+import { Discount, OrderType, PaymentMethod } from '@/types/order'
 
 type OrderArg = {
   date?: Date,
@@ -12,6 +12,7 @@ type OrderArg = {
   phone?: null | string,
   name?: null | string,
   deliveryPrice?: number
+  paymentMethod?: PaymentMethod
 }
 
 export class Order {
@@ -25,6 +26,7 @@ export class Order {
   name: null | string = null
   orderType: OrderType = 'pickup'
   deliveryPrice: number = 0
+  paymentMethod: PaymentMethod = null
 
   constructor({
     date = new Date(),
@@ -36,7 +38,8 @@ export class Order {
     phone = null,
     name = null,
     orderType = 'pickup',
-    deliveryPrice
+    deliveryPrice,
+    paymentMethod = null
   }: OrderArg) {
     this.products = products
     this.paid = paid
@@ -48,6 +51,7 @@ export class Order {
     this.orderNumber = orderNumber
     this.orderType = orderType
     this.deliveryPrice = deliveryPrice || 0
+    this.paymentMethod = paymentMethod
   }
 
   getSubtotalPrice() {
