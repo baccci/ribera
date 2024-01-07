@@ -38,7 +38,7 @@ export const CategoryTag: React.FC<CategoryTagProps> = ({ tagName, icon }) => {
     >
       <div className='z-[0] absolute top-0 left-0 size-full overflow-hidden rounded-2xl mix-blend-color-burn'>
         <div className={cn('z-[0] absolute bottom-0 left-1/2 h-2/5 w-4/5 -translate-x-1/2 rounded-full bg-slate-700 blur-md opacity-70 group-hover:h-2/4 transition-all duration-200',
-          { 'bg-yellow-300 mix-blend-lighten group-hover:bg-yellow-foreground group-hover:h-2/4': selected }
+          { 'bg-yellow-200 mix-blend-lighten group-hover:bg-yellow-foreground group-hover:h-2/4': selected }
         )} />
       </div>
 
